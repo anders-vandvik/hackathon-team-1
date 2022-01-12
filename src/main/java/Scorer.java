@@ -6,16 +6,15 @@ import java.util.List;
 
 public class Scorer {
 
-    public static double calculateAssignmentScore(Video video, Cache cache) {
-        // Get all requests for the video
-        List<Request> requestsForVideo = Problem.videoToRequests.get(video);
-        for (Request request : requestsForVideo) {
-            int endpointId = request.getEndpointId();
-            Endpoint endpoint = Problem.endpoints.get(endpointId);
-            double latencyDataCenter = endpoint.getLatencyDataCenter();
-            double latencyCache = endpoint.getCacheLatency(cache.getCacheId());
-            double lowestLatency = Math.min(latencyDataCenter, latencyCache);
+    public static double calculateTotalLatency(Video video, Cache cache) {
+        // The endpoints that request the video and are connected to the cache
+        List<Endpoint> endpoints = video.getEndpoints(cache);
+        int totalLatency = 0;
+        for (Endpoint endpoint : endpoints) {
+            int endpointLatency = endpoint.getCacheLatency(cache);
+            int dataCenterLatency = endpoint.getDataCenterLatency();
+            totalLatency += Math.min(endpointLatency, dataCenterLatency);
         }
-        return 0.0;
+        return totalLatency;
     }
 }

@@ -23,7 +23,7 @@ public class Endpoint {
         return id;
     }
 
-    public double getLatencyDataCenter() {
+    public int getDataCenterLatency() {
         return latencyDataCenter;
     }
 

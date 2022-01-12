@@ -34,6 +34,10 @@ public class Video {
         this.size = size;
     }
 
+    public List<Endpoint> getEndpoints(Cache cache) {
+        return cacheEndpoints.get(cache);
+    }
+
     public void add(Cache cache, Endpoint endpoint) {
         cacheEndpoints.computeIfAbsent(cache,
                 k-> new ArrayList<>()).add(endpoint);
