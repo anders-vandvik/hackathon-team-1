@@ -31,6 +31,10 @@ public class Endpoint {
         return cacheLatencies.get(cache);
     }
 
+    public Request getRequest(Video video) {
+        return videoRequests.get(video);
+    }
+
     public Collection<Request> getRequests( ){
         return videoRequests.values();
     }

@@ -3,7 +3,7 @@ package main.java.problem;
 public class Request {
 
     private final int id;
-    private final double numberOfRequests;
+    private final int numberOfRequests;
     private final Video video;
 
     private Cache cache;
@@ -18,7 +18,7 @@ public class Request {
         return id;
     }
 
-    public double getNumberOfRequests() {
+    public int getNumberOfRequests() {
         return numberOfRequests;
     }
 

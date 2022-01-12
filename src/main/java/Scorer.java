@@ -6,15 +6,27 @@ import java.util.List;
 
 public class Scorer {
 
-    public static double calculateTotalLatency(Video video, Cache cache) {
+    public static double calculateDelta(Video video, Cache cache) {
         // The endpoints that request the video and are connected to the cache
         List<Endpoint> endpoints = video.getEndpoints(cache);
-        int totalLatency = 0;
+        int delta = 0;
         for (Endpoint endpoint : endpoints) {
-            int endpointLatency = endpoint.getCacheLatency(cache);
-            int dataCenterLatency = endpoint.getDataCenterLatency();
-            totalLatency += Math.min(endpointLatency, dataCenterLatency);
+            Request request = endpoint.getRequest(video);
+            int numberOfRequests = request.getNumberOfRequests();
+
+            // Find the baseline latency (in case the video is available in another cache)
+            Cache requestCache = request.getCache();
+            int baselineLatency;
+            if (requestCache != null) {
+                baselineLatency = numberOfRequests * endpoint.getCacheLatency(requestCache);
+            } else {
+                baselineLatency = numberOfRequests * endpoint.getDataCenterLatency();
+            }
+
+            // Calculate delta
+            int newLatency = numberOfRequests * endpoint.getCacheLatency(cache);
+            delta += Math.max(newLatency - baselineLatency, 0);
         }
-        return totalLatency;
+        return delta;
     }
 }
