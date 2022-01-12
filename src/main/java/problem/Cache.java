@@ -5,40 +5,23 @@ import java.util.List;
 
 public class Cache {
 
-    private int cacheId;
-    private int numberOfConnectedEndpoints;
+    private int id;
+    private int size;
 
     private List<Video> videos;
 
-    public Cache(int cacheId) {
-        this.cacheId = cacheId;
+    public Cache(int id, int size) {
+        this.id = id;
+        this.size = size;
         this.videos = new ArrayList<>();
     }
 
-    public Cache(int cacheId, int numberOfConnectedEndpoints, List<Integer> endpointIds) {
-        this.cacheId = cacheId;
-        this.numberOfConnectedEndpoints = numberOfConnectedEndpoints;
-        this.videos = new ArrayList<>();
+    public int getId() {
+        return id;
     }
 
-    public int getCacheId() {
-        return cacheId;
-    }
-
-    public void setCacheId(int cacheId) {
-        this.cacheId = cacheId;
-    }
-
-    public int getNumberOfConnectedEndpoints() {
-        return numberOfConnectedEndpoints;
-    }
-
-    public void incrementNumberOfConnectedEndpoints() {
-        this.numberOfConnectedEndpoints++;
-    }
-
-    public void setNumberOfConnectedEndpoints(int numberOfConnectedEndpoints) {
-        this.numberOfConnectedEndpoints = numberOfConnectedEndpoints;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void addVideo(Video video) {
@@ -48,4 +31,9 @@ public class Cache {
     public List<Video> getVideos() {
         return videos;
     }
+
+    public int getSize() {
+        return size;
+    }
+
 }

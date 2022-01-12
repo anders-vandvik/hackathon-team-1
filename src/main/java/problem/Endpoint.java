@@ -36,7 +36,7 @@ public class Endpoint {
     }
 
     ///////
-    void addCacheLatency(Cache cache, int latency) {
+    public void addCacheLatency(Cache cache, int latency) {
         cacheLatencies.put(cache, latency);
     }
 
