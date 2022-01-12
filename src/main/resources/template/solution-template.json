@@ -1,0 +1,36 @@
+{
+    "name": "Test",
+    "solutions": [
+        {
+            "id": "me_at_the_zoo",
+            "serverList": [
+                {
+                    "serverId": 0,
+                    "videos": [
+                        0
+                    ]
+                },
+                {
+                    "serverId": 1,
+                    "videos": [
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "videos_worth_spreading",
+            "serverList": []
+        },
+        {
+            "id": "trending_today",
+            "serverList": []
+        },
+        {
+            "id": "kittens",
+            "serverList": []
+        }
+    ]
+}
+
