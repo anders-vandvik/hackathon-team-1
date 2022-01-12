@@ -9,17 +9,70 @@ public class Solver {
     private final List<Cache> caches;
     private final List<Endpoint> endpoints;
 
+    private final long startLatency;
+    private final long numRequests;
+
     private final Map<Video, Map<Cache, List<Endpoint>>> videoCacheEndpoints;
 
     public Solver(Problem problem) {
         this.caches = problem.getCaches();
         this.endpoints = problem.getEndpoints();
         this.videoCacheEndpoints = buildVideoCacheEndpoints(endpoints);
+        this.startLatency = findTotalLatency(endpoints);
+        this.numRequests = findNumRequests(endpoints);
     }
 
     public void solve() {
+        long latencyGain = 0;
         PriorityQueue<Node> frontier = buildNodeFrontier();
-        System.err.println(frontier.size());
+        while (!frontier.isEmpty()) {
+            Node node = frontier.poll();
+            if (node.isFresh()) {
+                assign(node);
+                System.err.println(node);
+                latencyGain += node.getLatencyGain();
+            } else {
+                frontier.add(refresh(node));
+            }
+        }
+        System.out.println("obj: " + calcObjective(latencyGain));
+    }
+
+    private long calcObjective(long latencyGain) {
+        long obj = (1000 * -latencyGain) / numRequests;
+        return obj;
+    }
+
+    /** Stores the assignment from the node in the solution state. */
+    private void assign(Node node) {
+        if (infeasible(node))
+            return;
+
+        Video video = node.getVideo();
+        Cache cache = node.getCache();
+        cache.addVideo(video);
+        video.incTimestamp();
+
+        for (Endpoint endpoint : getEndpoints(video, cache)) {
+            long latencyGain = findLatencyGain(video, cache, endpoint);
+            if (latencyGain < 0) {
+                endpoint.getRequest(video).setCache(cache);
+            }
+        }
+    }
+
+    /** Creates a new node by reevaluating given assignment. */
+    private Node refresh(Node node) {
+        Video video = node.getVideo();
+        Cache cache = node.getCache();
+        long latencyGain = findLatencyGain(video, cache);
+        return new Node(video, cache, latencyGain);
+    }
+
+    private boolean infeasible(Node node) {
+        Video video = node.getVideo();
+        Cache cache = node.getCache();
+        return cache.getRemainingSize() < video.getSize();
     }
 
     private PriorityQueue<Node> buildNodeFrontier() {
@@ -62,7 +115,7 @@ public class Solver {
     }
 
     /** Finds the total latency of the problem.*/
-    private long findTotalLatency() {
+    private static long findTotalLatency(List<Endpoint> endpoints) {
         long latency = 0;
         for (Endpoint endpoint : endpoints) {
             latency += findLatency(endpoint);
@@ -71,12 +124,22 @@ public class Solver {
     }
 
     /** Finds the total latency of the given endpoint. */
-    private long findLatency(Endpoint endpoint) {
+    private static long findLatency(Endpoint endpoint) {
         long latency = 0;
         for (Video video : endpoint.getVideos()) {
             latency += endpoint.getLatency(video);
         }
         return latency;
+    }
+
+    private static long findNumRequests(List<Endpoint> endpoints) {
+        long numRequests = 0;
+        for (Endpoint endpoint : endpoints) {
+            for (Request request : endpoint.getRequests()) {
+                numRequests += request.getNumberOfRequests();
+            }
+        }
+        return numRequests;
     }
 
     /** Builds a mapping from videos to caches to endpoints that have access to the cache and request a video. */
@@ -98,7 +161,7 @@ public class Solver {
         return videoCacheEndpoints;
     }
 
-    private PriorityQueue<Node> initNodeFrontier() {
+    private static PriorityQueue<Node> initNodeFrontier() {
         return new PriorityQueue<>((node1, node2) -> {
             long f = node1.getLatencyGain() - node2.getLatencyGain();
             if (f != 0) return (int)f;
