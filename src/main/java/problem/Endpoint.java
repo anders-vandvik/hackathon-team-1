@@ -40,6 +40,10 @@ public class Endpoint {
         this.numberOfConnectedCaches = numberOfConnectedCaches;
     }
 
+    public double getCacheLatency(int cacheId) {
+        return this.cacheIdToLatency.get(cacheId);
+    }
+
     public Map<Integer, Double> getCacheIdToLatency() {
         return cacheIdToLatency;
     }
