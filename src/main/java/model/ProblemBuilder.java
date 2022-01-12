@@ -12,9 +12,11 @@ import java.util.Map;
 
 public class ProblemBuilder {
 
+    private final String id;
     private final String filePath;
 
-    public ProblemBuilder(String filePath) {
+    public ProblemBuilder(String id, String filePath) {
+        this.id = id;
         this.filePath = filePath;
     }
 
@@ -34,7 +36,7 @@ public class ProblemBuilder {
         List<Cache> caches = new ArrayList<>(idCaches.values());
         List<Endpoint> endpoints = new ArrayList<>(idEndpoints.values());
 
-        return new Problem(caches, endpoints);
+        return new Problem(id, caches, endpoints);
     }
 
     private Map<Integer, Endpoint> buildIdEndpoints(int numEndpoints, Map<Integer, Cache> idCaches,
