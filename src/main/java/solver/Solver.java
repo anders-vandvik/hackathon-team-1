@@ -26,28 +26,30 @@ public class Solver {
         long latencyGain = 0;
         PriorityQueue<Node> frontier = buildNodeFrontier();
         while (!frontier.isEmpty()) {
+            System.out.println(frontier.size());
             Node node = frontier.poll();
+            if (node.getLatencyGain() == 0) break;
             if (node.isFresh()) {
-                assign(node);
-                System.err.println(node);
-                latencyGain += node.getLatencyGain();
+                if (feasible(node)) {
+                    assign(node);
+//                    System.err.println("assign: " + node);
+                    latencyGain += node.getLatencyGain();
+                }
             } else {
-                frontier.add(refresh(node));
+                Node newNode = refresh(node);
+                frontier.add(newNode);
+//                System.err.println("old node: " + node + ", new node: " + newNode);
             }
         }
         System.out.println("obj: " + calcObjective(latencyGain));
     }
 
     private long calcObjective(long latencyGain) {
-        long obj = (1000 * -latencyGain) / numRequests;
-        return obj;
+        return (1000 * -latencyGain) / numRequests;
     }
 
     /** Stores the assignment from the node in the solution state. */
     private void assign(Node node) {
-        if (infeasible(node))
-            return;
-
         Video video = node.getVideo();
         Cache cache = node.getCache();
         cache.addVideo(video);
@@ -69,10 +71,10 @@ public class Solver {
         return new Node(video, cache, latencyGain);
     }
 
-    private boolean infeasible(Node node) {
+    private boolean feasible(Node node) {
         Video video = node.getVideo();
         Cache cache = node.getCache();
-        return cache.getRemainingSize() < video.getSize();
+        return cache.getRemainingSize() >= video.getSize();
     }
 
     private PriorityQueue<Node> buildNodeFrontier() {
