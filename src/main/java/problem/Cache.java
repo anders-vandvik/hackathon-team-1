@@ -1,21 +1,24 @@
 package main.java.problem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cache {
 
     private int cacheId;
     private int numberOfConnectedEndpoints;
-    private List<Integer> endpointIds;
+
+    private List<Video> videos;
 
     public Cache(int cacheId) {
         this.cacheId = cacheId;
+        this.videos = new ArrayList<>();
     }
 
     public Cache(int cacheId, int numberOfConnectedEndpoints, List<Integer> endpointIds) {
         this.cacheId = cacheId;
         this.numberOfConnectedEndpoints = numberOfConnectedEndpoints;
-        this.endpointIds = endpointIds;
+        this.videos = new ArrayList<>();
     }
 
     public int getCacheId() {
@@ -38,16 +41,11 @@ public class Cache {
         this.numberOfConnectedEndpoints = numberOfConnectedEndpoints;
     }
 
-    public List<Integer> getEndpointIds() {
-        return endpointIds;
+    public void addVideo(Video video) {
+        this.videos.add(video);
     }
 
-    public void addEndpoint(int endpointId) {
-        this.incrementNumberOfConnectedEndpoints();
-        this.endpointIds.add(endpointId);
-    }
-
-    public void setEndpointIds(List<Integer> endpointIds) {
-        this.endpointIds = endpointIds;
+    public List<Video> getVideos() {
+        return videos;
     }
 }

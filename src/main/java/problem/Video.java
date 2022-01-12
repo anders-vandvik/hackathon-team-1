@@ -1,35 +1,48 @@
 package main.java.problem;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Video {
 
-    private int videoId;
-    private double size;
+    private int id;
+    private int size;
 
-    public Video(int videoId, double size) {
-        this.videoId = videoId;
+    private final Map<Video, List<Endpoint>> videoEndpoints;
+
+    public Video(int id, int size) {
+        this.id = id;
         this.size = size;
+        this.videoEndpoints = new HashMap<>();
     }
 
-    public int getVideoId() {
-        return videoId;
+    public int getId() {
+        return id;
     }
 
-    public void setVideoId(int videoId) {
-        this.videoId = videoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getSize() {
         return size;
     }
 
-    public void setSize(double size) {
+    public void setSize(int size) {
         this.size = size;
+    }
+
+    public void add(Video video, Endpoint endpoint) {
+        videoEndpoints.computeIfAbsent(video,
+                k-> new ArrayList<>()).add(endpoint);
     }
 
     @Override
     public String toString() {
         return "Video{" +
-                "videoId=" + videoId +
+                "videoId=" + id +
                 ", size=" + size +
                 '}';
     }

@@ -1,62 +1,46 @@
 package main.java.problem;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Endpoint {
 
-    private int endpointId;
-    private double latencyDataCenter;
-    private int numberOfConnectedCaches;
-    private Map<Integer, Double> cacheIdToLatency;
+    private final int id;
+    private final int latencyDataCenter;
 
-    public Endpoint(int endpointId, double latencyDataCenter, int numberOfConnectedCaches) {
-        this.endpointId = endpointId;
+    private final Map<Cache, Integer> cacheLatencies;
+    private final Map<Video, Request> videoRequests;
+
+    public Endpoint(int id, int latencyDataCenter) {
+        this.id = id;
         this.latencyDataCenter = latencyDataCenter;
-        this.numberOfConnectedCaches = numberOfConnectedCaches;
+        this.cacheLatencies = new HashMap<>();
+        this.videoRequests = new HashMap<>();
     }
 
-    public int getEndpointId() {
-        return endpointId;
-    }
-
-    public void setEndpointId(int endpointId) {
-        this.endpointId = endpointId;
+    public int getId() {
+        return id;
     }
 
     public double getLatencyDataCenter() {
         return latencyDataCenter;
     }
 
-    public void setLatencyDataCenter(double latencyDataCenter) {
-        this.latencyDataCenter = latencyDataCenter;
+    public Integer getCacheLatency(Cache cache) {
+        return cacheLatencies.get(cache);
     }
 
-    public int getNumberOfConnectedCaches() {
-        return numberOfConnectedCaches;
-    }
-
-    public void setNumberOfConnectedCaches(int numberOfConnectedCaches) {
-        this.numberOfConnectedCaches = numberOfConnectedCaches;
-    }
-
-    public double getCacheLatency(int cacheId) {
-        return this.cacheIdToLatency.get(cacheId);
-    }
-
-    public Map<Integer, Double> getCacheIdToLatency() {
-        return cacheIdToLatency;
-    }
-
-    public void setCacheIdToLatency(Map<Integer, Double> cacheIdToLatency) {
-        this.cacheIdToLatency = cacheIdToLatency;
+    ///////
+    void addCacheLatency(Cache cache, int latency) {
+        cacheLatencies.put(cache, latency);
     }
 
     @Override
     public String toString() {
         return "Endpoint{" +
-                "endpointId=" + endpointId +
+                "endpointId=" + id +
                 ", latencyDataCenter=" + latencyDataCenter +
-                ", numberOfConnectedCaches=" + numberOfConnectedCaches +
+                ", numberOfConnectedCaches=" + cacheLatencies.size() +
                 '}';
     }
 }

@@ -2,56 +2,43 @@ package main.java.problem;
 
 public class Request {
 
-    private int requestId;
-    private int videoId;
-    private int endpointId;
-    private double numberOfRequests;
+    private final int id;
+    private final double numberOfRequests;
+    private final Video video;
 
-    public Request(int requestId, int videoId, int endpointId, double numberOfRequests) {
-        this.requestId = requestId;
-        this.videoId = videoId;
-        this.endpointId = endpointId;
+    private Cache cache;
+
+    public Request(int requestId, int numberOfRequests, Video video) {
+        this.id = requestId;
         this.numberOfRequests = numberOfRequests;
+        this.video = video;
     }
 
-    public int getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(int requestId) {
-        this.requestId = requestId;
-    }
-
-    public int getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(int videoId) {
-        this.videoId = videoId;
-    }
-
-    public int getEndpointId() {
-        return endpointId;
-    }
-
-    public void setEndpointId(int endpointId) {
-        this.endpointId = endpointId;
+    public int getId() {
+        return id;
     }
 
     public double getNumberOfRequests() {
         return numberOfRequests;
     }
 
-    public void setNumberOfRequests(double numberOfRequests) {
-        this.numberOfRequests = numberOfRequests;
+    public Video getVideo() {
+        return video;
+    }
+
+    public Cache getCache() {
+        return cache;
+    }
+
+    public void setCache(Cache cache) {
+        this.cache = cache;
     }
 
     @Override
     public String toString() {
         return "Request{" +
-                "requestId=" + requestId +
-                ", videoId=" + videoId +
-                ", endpointId=" + endpointId +
+                "requestId=" + id +
+                ", videoId=" + video.getId() +
                 ", numberOfRequests=" + numberOfRequests +
                 '}';
     }
