@@ -29,7 +29,7 @@ public class Video {
         this.id = id;
     }
 
-    public double getSize() {
+    public int getSize() {
         return size;
     }
 
