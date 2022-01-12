@@ -1,8 +1,9 @@
-package main.java.problem;
+package main.java.model;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Endpoint {
 
@@ -31,13 +32,37 @@ public class Endpoint {
         return cacheLatencies.get(cache);
     }
 
-    public Collection<Request> getRequests( ){
+    public Collection<Request> getRequests() {
         return videoRequests.values();
+    }
+
+    public Request getRequest(Video video) {
+        return videoRequests.get(video);
+    }
+
+    public Set<Video> getVideos() {
+        return videoRequests.keySet();
+    }
+
+    public Set<Cache> getCaches() {
+        return cacheLatencies.keySet();
+    }
+
+    public int getLatency(Video video) {
+        Request request = videoRequests.get(video);
+        int numRequests = request.getNumberOfRequests();
+        Cache cache = request.getCache();
+        return numRequests * ((cache != null) ?
+                cacheLatencies.get(cache) : latencyDataCenter);
     }
 
     ///////
     public void addCacheLatency(Cache cache, int latency) {
         cacheLatencies.put(cache, latency);
+    }
+
+    public void addVideoRequest(Video video, Request request) {
+        videoRequests.put(video, request);
     }
 
     @Override

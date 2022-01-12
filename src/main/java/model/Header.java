@@ -1,4 +1,4 @@
-package main.java.problem;
+package main.java.model;
 
 public class Header {
     public int videoCount;

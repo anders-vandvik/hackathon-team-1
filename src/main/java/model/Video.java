@@ -1,21 +1,24 @@
-package main.java.problem;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package main.java.model;
 
 public class Video {
 
     private int id;
     private int size;
 
-    private final Map<Cache, List<Endpoint>> cacheEndpoints;
+    private int timestamp;
 
     public Video(int id, int size) {
         this.id = id;
         this.size = size;
-        this.cacheEndpoints = new HashMap<>();
+        this.timestamp = 0;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    public void incTimestamp() {
+        timestamp++;
     }
 
     public int getId() {
@@ -32,11 +35,6 @@ public class Video {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    public void add(Cache cache, Endpoint endpoint) {
-        cacheEndpoints.computeIfAbsent(cache,
-                k-> new ArrayList<>()).add(endpoint);
     }
 
     @Override
