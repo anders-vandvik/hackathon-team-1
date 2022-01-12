@@ -25,4 +25,12 @@ public class Video {
     public void setSize(double size) {
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "videoId=" + videoId +
+                ", size=" + size +
+                '}';
+    }
 }

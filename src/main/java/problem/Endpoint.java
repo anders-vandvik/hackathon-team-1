@@ -9,11 +9,10 @@ public class Endpoint {
     private int numberOfConnectedCaches;
     private Map<Integer, Double> cacheIdToLatency;
 
-    public Endpoint(int endpointId, double latencyDataCenter, int numberOfConnectedCaches, Map<Integer, Double> cacheIdToLatency) {
+    public Endpoint(int endpointId, double latencyDataCenter, int numberOfConnectedCaches) {
         this.endpointId = endpointId;
         this.latencyDataCenter = latencyDataCenter;
         this.numberOfConnectedCaches = numberOfConnectedCaches;
-        this.cacheIdToLatency = cacheIdToLatency;
     }
 
     public int getEndpointId() {
@@ -50,5 +49,14 @@ public class Endpoint {
 
     public void setCacheIdToLatency(Map<Integer, Double> cacheIdToLatency) {
         this.cacheIdToLatency = cacheIdToLatency;
+    }
+
+    @Override
+    public String toString() {
+        return "Endpoint{" +
+                "endpointId=" + endpointId +
+                ", latencyDataCenter=" + latencyDataCenter +
+                ", numberOfConnectedCaches=" + numberOfConnectedCaches +
+                '}';
     }
 }
