@@ -10,12 +10,12 @@ public class Video {
     private int id;
     private int size;
 
-    private final Map<Video, List<Endpoint>> videoEndpoints;
+    private final Map<Cache, List<Endpoint>> cacheEndpoints;
 
     public Video(int id, int size) {
         this.id = id;
         this.size = size;
-        this.videoEndpoints = new HashMap<>();
+        this.cacheEndpoints = new HashMap<>();
     }
 
     public int getId() {
@@ -34,8 +34,8 @@ public class Video {
         this.size = size;
     }
 
-    public void add(Video video, Endpoint endpoint) {
-        videoEndpoints.computeIfAbsent(video,
+    public void add(Cache cache, Endpoint endpoint) {
+        cacheEndpoints.computeIfAbsent(cache,
                 k-> new ArrayList<>()).add(endpoint);
     }
 
