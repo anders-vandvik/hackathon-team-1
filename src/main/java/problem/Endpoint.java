@@ -1,5 +1,6 @@
 package main.java.problem;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public class Endpoint {
 
     public Integer getCacheLatency(Cache cache) {
         return cacheLatencies.get(cache);
+    }
+
+    public Collection<Request> getRequests( ){
+        return videoRequests.values();
     }
 
     ///////
