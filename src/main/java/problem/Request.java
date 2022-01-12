@@ -45,4 +45,14 @@ public class Request {
     public void setNumberOfRequests(double numberOfRequests) {
         this.numberOfRequests = numberOfRequests;
     }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "requestId=" + requestId +
+                ", videoId=" + videoId +
+                ", endpointId=" + endpointId +
+                ", numberOfRequests=" + numberOfRequests +
+                '}';
+    }
 }

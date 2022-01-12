@@ -1,9 +1,6 @@
 package main.java;
 
-import main.java.problem.Endpoint;
-import main.java.problem.Header;
-import main.java.problem.Problem;
-import main.java.problem.Video;
+import main.java.problem.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +17,6 @@ public class IO {
         InputStream inputStream = IO.class.getResourceAsStream(problemFile);
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
             Header header = parseHeader(br.readLine());
             Problem.videos = parseVideos(br.readLine());
 
@@ -33,6 +29,12 @@ public class IO {
                     Map<Integer, Double> cacheLatencyMapping = parseCacheLatencyMapping(br.readLine());
                     endpoint.setCacheIdToLatency(cacheLatencyMapping);
                 }
+            }
+
+            Problem.requests = new ArrayList<>();
+            for (int k = 0; k < header.requestCount; k++) {
+                Request request = parseRequest(br.readLine(), k);
+                Problem.requests.add(request);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,5 +85,18 @@ public class IO {
         result.put(Integer.parseInt(cacheLatencyDefinition[0]), Double.parseDouble(cacheLatencyDefinition[1]));
 
         return result;
+    }
+
+    private Request parseRequest(String requestString, int id) {
+        String[] requestDefinition = requestString.split(" ");
+
+        Request request = new Request(
+                id,
+                Integer.parseInt(requestDefinition[0]),
+                Integer.parseInt(requestDefinition[1]),
+                Double.parseDouble(requestDefinition[2])
+        );
+
+        return request;
     }
 }
