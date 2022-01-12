@@ -32,13 +32,11 @@ public class Solver {
             if (node.isFresh()) {
                 if (feasible(node)) {
                     assign(node);
-//                    System.err.println("assign: " + node);
                     latencyGain += node.getLatencyGain();
                 }
             } else {
                 Node newNode = refresh(node);
                 frontier.add(newNode);
-//                System.err.println("old node: " + node + ", new node: " + newNode);
             }
         }
         System.out.println("obj: " + calcObjective(latencyGain));
