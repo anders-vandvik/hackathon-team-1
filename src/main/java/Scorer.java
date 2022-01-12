@@ -14,9 +14,9 @@ public class Scorer {
             Request request = endpoint.getRequest(video);
             int numberOfRequests = request.getNumberOfRequests();
 
-            // Find the baseline latency (in case the video is available in another cache)
-            Cache requestCache = request.getCache();
+            // Find the baseline latency
             int baselineLatency;
+            Cache requestCache = request.getCache();
             if (requestCache != null) {
                 baselineLatency = numberOfRequests * endpoint.getCacheLatency(requestCache);
             } else {
